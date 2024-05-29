@@ -3,17 +3,17 @@ import { CreateUserDto } from './DTO/user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
-import { cryptePassword } from './helpers/auth';
+import { hashPassword } from './helpers/password';
 
 
 @Injectable()
 export class UserService {
     constructor(@InjectModel(User.name) private UserModel: Model<User>) { }
 
-    async create(createUserDto: CreateUserDto): Promise<User> {
+    async register(createUserDto: CreateUserDto): Promise<User> {
         try {
             const { password } = createUserDto
-            const hash = await cryptePassword(password)
+            const hash = await hashPassword(password)
             const createdUser = new this.UserModel({ ...createUserDto, password: hash });
             return createdUser.save();
         } catch (error) {

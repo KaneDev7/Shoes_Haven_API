@@ -12,8 +12,11 @@ export class User {
     @Prop()
     password: string;
 
-    @Prop({ unique: true })
+    @Prop({ unique: true })     
     email: string;
+
+    @Prop()
+    token: string;
 
     @Prop({default: userRole.User})
     role: string;
@@ -23,6 +26,7 @@ export class User {
 
     @Prop({ type: [String], default: [] })
     addresses: string[];
+
 
     @Prop({ type: [{ productId: String, quantity: Number }], default: [] })
     cart: { productId: string; quantity: number }[];

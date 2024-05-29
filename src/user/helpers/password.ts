@@ -2,7 +2,7 @@ import * as bcrypt from 'bcrypt';
 import { SALT_ROUNDS } from '../constants/constant';
 
 
-export const cryptePassword = async (password: string): Promise<string> => {
+export const hashPassword = async (password: string): Promise<string> => {
     try {
         const hash = await bcrypt.hash(password, SALT_ROUNDS);
         return hash

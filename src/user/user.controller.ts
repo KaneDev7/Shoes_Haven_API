@@ -10,10 +10,10 @@ import { successResponse } from './success/successResponse';
 export class UserController {
     constructor(readonly userService: UserService) { }
 
-    @Post('/auth')
-    async create(@Body() createUserDto: CreateUserDto, @Res() res: Response ) {
+    @Post('/register')
+    async register(@Body() createUserDto: CreateUserDto, @Res() res: Response) {
         try {
-            await this.userService.create(createUserDto)
+            await this.userService.register(createUserDto)
             res.status(201).json({ status: 'success', message: 'user created' })
         } catch (error) {
             console.log(error)
@@ -23,7 +23,7 @@ export class UserController {
     }
 
     @Get()
-    async findAll(@Res() res: Response ) {
+    async findAll(@Res() res: Response) {
         try {
             const users = await this.userService.findAll()
             const responseObject = successResponse(users)
