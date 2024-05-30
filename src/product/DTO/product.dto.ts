@@ -2,41 +2,31 @@ import { IsBoolean, IsDataURI, IsDate, IsEmail, IsHexColor, IsNotEmpty, IsNumber
 
 export class CreateProductDto {
   @IsNotEmpty()
-
-  @IsString()
   productId: string;
 
-  @IsString()
+  @IsNotEmpty()
   title: string;
 
-  @IsString()
+  @IsNotEmpty()
   description: string;
 
-  @IsPositive()
-  @IsNumber()
+  // @IsPositive()
+  // @IsNumber()
   price : number
 
-  @IsBoolean()
+  // @IsBoolean()
   onStock: boolean;
 
-  @Min(41)
-  @Max(46)
-  @IsNumber()
+  // @Min(41)
+  // @Max(46)
+  // @IsNumber()
   size: number;
-
 
   @IsHexColor()
   color: string;
 
   @Length(3, 10)
-  @IsString()
   mark: string;
-
-  @IsDataURI()
-  uri: string;
-
-  @IsDate()
-  created_at: Date;
 }
 
 

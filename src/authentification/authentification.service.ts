@@ -25,7 +25,7 @@ export class AuthentificationService {
 
             const payload = { username, userId: findUser._id }
             const token = await this.jwtService.signAsync(payload)
-            return await this.UserModel.findOneAndUpdate({ username }, { token }, { returnDocument: 'after' })
+            return await this.UserModel.findOneAndUpdate({ username }, { token }, { returnDocument: 'after'})
 
         } catch (error) {
             console.log(error)
@@ -33,3 +33,4 @@ export class AuthentificationService {
         }
     }
 }
+ 

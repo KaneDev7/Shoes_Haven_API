@@ -27,7 +27,7 @@ export class Product {
     mark: string;
 
     @Prop()
-    uri: string;
+    uri: string[];
 
     @Prop({default : Date.now()})
     created_at: Date;
