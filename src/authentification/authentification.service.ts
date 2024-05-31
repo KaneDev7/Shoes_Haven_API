@@ -19,7 +19,7 @@ export class AuthentificationService {
             const { password, username } = loginDto
             const findUser = await this.UserModel.findOne({ username })
             if (!findUser) throw new UnauthorizedException('Incorrect username or password')
-
+ 
             const match = await bcrypt.compare(password, findUser.password);
             if (!match) throw new UnauthorizedException('Incorrect username or password')
 

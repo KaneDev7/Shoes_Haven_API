@@ -5,7 +5,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/authentification/jwt-auth.guard';
 
 
-
 @Controller('api/product')
 export class ProductController {
     constructor(readonly userService: ProductService) { }

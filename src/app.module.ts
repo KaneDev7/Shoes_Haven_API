@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ProductModule } from './product/product.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthentificationModule } from './authentification/authentification.module';
+import { JwtStrategy } from './authentification/jwt.strategy';
 
   
 @Module({
