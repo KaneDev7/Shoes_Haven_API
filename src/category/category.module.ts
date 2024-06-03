@@ -1,17 +1,15 @@
 import { HttpException, HttpStatus, Module } from '@nestjs/common';
-import { ProductService } from './product.service';
-import { ProductController } from './product.controller';
+import { CategoryService } from './category.service';
+import { CategoryController } from './category.controller';
 import { MulterModule } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { diskStorage } from 'multer';
 import { existsSync, mkdirSync } from 'fs';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ProductSchema, Product } from './schemas/product.schema';
-
-const MAX_PROFILE_PICTURE_SIZE_IN_BYTES = 2 * 1024 * 1024;
+import { Category, CategorySchema } from './schemas/category.schema';
 
 @Module({
-  imports: [
+  imports : [
     MulterModule.register({
       limits: {
         fileSize: 1000000,
@@ -36,9 +34,10 @@ const MAX_PROFILE_PICTURE_SIZE_IN_BYTES = 2 * 1024 * 1024;
         },
       }),
     }),
-    MongooseModule.forFeature([{name : Product.name, schema: ProductSchema }])
+    MongooseModule.forFeature([{name : Category.name, schema: CategorySchema }])
+
   ],
-  providers: [ProductService],
-  controllers: [ProductController],
+  providers: [CategoryService],
+  controllers: [CategoryController]
 })
-export class ProductModule {}
+export class CategoryModule {}

@@ -7,6 +7,7 @@ import { ProductModule } from './product/product.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthentificationModule } from './authentification/authentification.module';
 import { JwtStrategy } from './authentification/jwt.strategy';
+import { CategoryModule } from './category/category.module';
 
   
 @Module({
@@ -15,7 +16,8 @@ import { JwtStrategy } from './authentification/jwt.strategy';
     ProductModule,
     AuthentificationModule,
     ConfigModule.forRoot(),
-    MongooseModule.forRoot(process.env.DATABASE_HOST)
+    MongooseModule.forRoot(process.env.DATABASE_HOST),
+    CategoryModule
   ],
   controllers: [AppController],
   providers: [AppService],

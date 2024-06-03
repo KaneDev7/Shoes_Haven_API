@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Date, HydratedDocument } from 'mongoose';
+import {HydratedDocument} from 'mongoose';
 
 export type ProductDocument = HydratedDocument<Product>;
 
@@ -13,8 +13,14 @@ export class Product {
 
     @Prop()
     description: string;
+    
+    @Prop()
+    category: string
 
     @Prop()
+    price: number;
+
+    @Prop({default : true})
     onStock: boolean;
 
     @Prop()
@@ -28,10 +34,6 @@ export class Product {
 
     @Prop()
     uri: string[];
-
-    @Prop({default : Date.now()})
-    created_at: Date;
-
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

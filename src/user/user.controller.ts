@@ -1,9 +1,9 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './DTO/user.dto';
 import { Response } from 'express';
-import { serverErrorFactory } from './errors/serverErrors';
-import { successResponse } from './success/successResponse';
+import { serverErrorFactory } from '../errors/serverErrors';
+import { successResponse } from '../success/successResponse';
 
 
 @Controller('api/users')
@@ -28,7 +28,6 @@ export class UserController {
             const users = await this.userService.findAll()
             const responseObject = successResponse(users)
             res.status(HttpStatus.OK).json(responseObject)
-
         } catch (error) {
             console.log(error)
             const serverErrorObject = serverErrorFactory(error.message)
