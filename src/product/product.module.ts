@@ -14,7 +14,7 @@ const MAX_PROFILE_PICTURE_SIZE_IN_BYTES = 2 * 1024 * 1024;
   imports: [
     MulterModule.register({
       limits: {
-        fileSize: 1000000,
+        fileSize: 1000000, 
       },
       fileFilter: (req: any, file: any, cb: any) => {
         if (file.mimetype.match(/\/(jpg|jpeg|png|gif)$/)) {

@@ -14,7 +14,6 @@ export class ProductService {
     async create(createProductDto: CreateProductDto, files: { files?: Express.Multer.File[] }) {
         const imageUris = files.files.map(file => file.filename)
         try {
-            console.log('createProductDto', createProductDto)
             await this.ProductModel.create({ ...createProductDto, uri: imageUris })
         } catch (error) {
             console.log(error)

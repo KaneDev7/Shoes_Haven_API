@@ -8,6 +8,8 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthentificationModule } from './authentification/authentification.module';
 import { JwtStrategy } from './authentification/jwt.strategy';
 import { CategoryModule } from './category/category.module';
+import { OrderModule } from './order/order.module';
+import { CartModule } from './cart/cart.module';
 
   
 @Module({
@@ -17,7 +19,9 @@ import { CategoryModule } from './category/category.module';
     AuthentificationModule,
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.DATABASE_HOST),
-    CategoryModule
+    CategoryModule,
+    OrderModule,
+    CartModule
   ],
   controllers: [AppController],
   providers: [AppService],

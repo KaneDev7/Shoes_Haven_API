@@ -14,7 +14,6 @@ export class CreateUserDto {
   token?: string
   roel?: string
   isActive?: boolean
-  addresses?: string[]
   cart?: { productId: string; quantity: number }[]
 }
 

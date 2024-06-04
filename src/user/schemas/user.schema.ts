@@ -24,12 +24,14 @@ export class User {
     @Prop({ default: true })
     isActive: boolean;
 
-    @Prop({ type: [String], default: [] })
-    addresses: string[];
+    @Prop({type :{ street: String,city: String}})
+    address: {
+        street: string,
+        city: string,
+    }
 
-
-    @Prop({ type: [{ productId: String, quantity: Number }], default: [] })
-    cart: { productId: string; quantity: number }[];
+    @Prop({ type: [{items : Array<{product_Id: String, quantity: Number}>, total_price: Number}], default: [] })
+    cart: { items : {product_Id: string; quantity: number }, total_price : number}[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -1,9 +1,10 @@
-import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './DTO/user.dto';
 import { Response } from 'express';
 import { serverErrorFactory } from '../errors/serverErrors';
 import { successResponse } from '../success/successResponse';
+import { JwtAuthGuard } from 'src/authentification/jwt-auth.guard';
 
 
 @Controller('api/users')
@@ -22,6 +23,7 @@ export class UserController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get()
     async findAll(@Res() res: Response) {
         try {
