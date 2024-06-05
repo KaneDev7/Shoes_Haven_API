@@ -5,13 +5,13 @@ export type OrderDocument = HydratedDocument<Order>;
 
 @Schema()
 export class Order {
-    @Prop({ unique: true })
+    @Prop()
     user_id: string;
 
     @Prop()
     items: {
-        "product_id": string,
-        "quantity": number,
+        productId: string,
+        quantity: number,
     }[]
 
     @Prop()
@@ -23,6 +23,7 @@ export class Order {
             city: String,
         }
     })
+
     address: {
         street: string,
         city: string,

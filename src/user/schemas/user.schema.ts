@@ -30,8 +30,8 @@ export class User {
         city: string,
     }
 
-    @Prop({ type: [{items : Array<{product_Id: String, quantity: Number}>, total_price: Number}], default: [] })
-    cart: { items : {product_Id: string; quantity: number }, total_price : number}[];
+    @Prop({ type: Array<{productId: String, quantity: Number}>, default: [] })
+    cart:  {productId: string; quantity: number }[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

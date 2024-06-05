@@ -1,16 +1,28 @@
 import { IsNotEmpty } from "class-validator";
 
-export class CreateCartrDto {
+export class CreateCartDto {
   @IsNotEmpty()
   user_id: string;
 
   @IsNotEmpty()
-  items: {
-    product_id: string,
+  item: {
+    productId: string,
     quantity: number,
-  }[];
+  };
+}
+
+
+export class DeleteOneItemDto {
+  @IsNotEmpty()
+  user_id: string;
 
   @IsNotEmpty()
-  total_price: number;
+  productId: string 
+}
 
+
+
+export class DeleteAlItemsDto {
+  @IsNotEmpty()
+  user_id: string;
 }

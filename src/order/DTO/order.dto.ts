@@ -6,8 +6,8 @@ export class CreateOrderDto {
 
   @IsNotEmpty()
   items: {
-    "product_id": string,
-    "quantity": number,
+    productId: string,
+    quantity: number,
   }[];
 
   @IsNotEmpty()
@@ -28,5 +28,21 @@ export class CreateOrderDto {
   @IsNotEmpty()
   order_date: string;
 
-  delivery_date: string;
+}
+
+export class UpdateOrderStatusDto {
+  @IsNotEmpty()
+  orderId: string;
+
+  @IsNotEmpty()
+  status: 'Pendding' | 'Payed' | 'Cancel';
+}
+
+
+export class UpdateOrderDeliveryDatesDto {
+  @IsNotEmpty()
+  orderId: string;
+
+  @IsNotEmpty()
+  delivery_date: Date
 }
