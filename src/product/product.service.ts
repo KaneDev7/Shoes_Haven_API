@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Product } from './product.schema';
 import { Model } from 'mongoose';
 import { CreateProductDto } from './DTO/createProduct.dto';
-import { UpdateProductDto } from './DTO/updateProductDto';
+import { SetOnProductStockDto, UpdateProductDto } from './DTO/updateProductDto';
 
 @Injectable()
 export class ProductService {
@@ -52,6 +52,15 @@ export class ProductService {
             } else {
                 await this.ProductModel.findByIdAndUpdate(id, updateProductDto)
             }
+        } catch (error) {
+            console.log(error)
+            throw new Error(`Some thing went wrong : ${error.message}`)
+        }
+    }
+
+    async setOnStock({onStock}: SetOnProductStockDto, productId : string ){
+        try {
+            await this.ProductModel.findByIdAndUpdate(productId, {$set : {onStock}})
         } catch (error) {
             console.log(error)
             throw new Error(`Some thing went wrong : ${error.message}`)

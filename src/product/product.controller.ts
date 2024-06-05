@@ -19,14 +19,13 @@ import { CreateProductDto } from './DTO/createProduct.dto';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/authentification/jwt-auth.guard';
 import { Response } from 'express';
-import { UpdateProductDto } from './DTO/updateProductDto';
+import { SetOnProductStockDto, UpdateProductDto } from './DTO/updateProductDto';
 
 
 @Controller('api/products')
 export class ProductController {
     constructor(readonly productService: ProductService) { }
 
-   
     @Get()
     async findAll(@Res() res: Response, @Query('category') category: string) {
         try {
@@ -97,6 +96,25 @@ export class ProductController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
+    @Put('update/stock/:id')
+    async setOnStock(
+        @Body() setOnProductStockDto : SetOnProductStockDto,
+        @Res() res: Response,
+        @Param() {id} : {id: string},
+    ) {
+        if (setOnProductStockDto.role !== 'admin') {
+            return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'UNAUTHORIZED' })
+        }
+ 
+        try {
+            await this.productService.setOnStock(setOnProductStockDto, id)
+            res.status(201).json({ status: 'success', message: 'Product stock successfully updated' })
+        } catch (error) {
+            console.log(error)
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message})
+        }
+    }
 
     @UseGuards(JwtAuthGuard)
     @Delete('delete/:id')

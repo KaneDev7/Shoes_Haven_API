@@ -30,7 +30,7 @@ export class CartService {
                         return item
                     }
                 })
-                await this.UserModel.findByIdAndUpdate(user_id,{$set : {cart : updateFondItemQuantity}})
+                await this.UserModel.findByIdAndUpdate(user_id, {$set : {cart : updateFondItemQuantity}})
             }
 
         } catch (error) {

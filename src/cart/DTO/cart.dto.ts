@@ -1,3 +1,4 @@
+import { PartialType } from "@nestjs/mapped-types";
 import { IsNotEmpty } from "class-validator";
 
 export class CreateCartDto {
@@ -12,17 +13,13 @@ export class CreateCartDto {
 }
 
 
-export class DeleteOneItemDto {
-  @IsNotEmpty()
-  user_id: string;
-
+export class DeleteOneItemDto  extends PartialType(CreateCartDto){
   @IsNotEmpty()
   productId: string 
 }
 
 
 
-export class DeleteAlItemsDto {
-  @IsNotEmpty()
-  user_id: string;
+export class DeleteAlItemsDto  extends PartialType(CreateCartDto){
+
 }

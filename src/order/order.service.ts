@@ -11,7 +11,6 @@ export class OrderService {
     ) { }
 
     async create(order: CreateOrderDto) {
-        console.log("order", order)
         try {
             await this.OrderModel.create(order)
         } catch (error) {
@@ -20,7 +19,7 @@ export class OrderService {
         }
     }
 
-    async findAll() {
+    async findAll()  : Promise<CreateOrderDto[]>{
         try {
             return await this.OrderModel.find()
         } catch (error) {

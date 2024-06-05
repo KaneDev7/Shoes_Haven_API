@@ -5,7 +5,6 @@ export class CreateCategoryDto {
   @Length(3)
   name: string;
 
-  description: string;
-  
+  description: string;  
   file: Express.Multer.File;
 }

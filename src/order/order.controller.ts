@@ -50,7 +50,7 @@ export class OrderController {
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: 'error', message: error.message })
-        }
+        }   
     }
 
     @UseGuards(JwtAuthGuard)
@@ -68,7 +68,6 @@ export class OrderController {
         }
     }
 
-    
     @UseGuards(JwtAuthGuard)
     @Delete(':id')
     async deleteOne(

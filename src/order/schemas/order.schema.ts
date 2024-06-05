@@ -17,18 +17,6 @@ export class Order {
     @Prop()
     total_price: number;
 
-    @Prop({
-        type: {
-            street: String,
-            city: String,
-        }
-    })
-
-    address: {
-        street: string,
-        city: string,
-    };
-
     @Prop()
     status: 'Pendding' | 'payed' | 'cancel';
 

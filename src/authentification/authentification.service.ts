@@ -5,6 +5,7 @@ import { User } from 'src/user/schemas/user.schema';
 import { LoginDto } from './DTO/login.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { hashPassword } from './helpers/password';
 
 
 @Injectable()
@@ -32,5 +33,16 @@ export class AuthentificationService {
             throw new Error(error)
         }
     }
+    async register(loginDto: LoginDto): Promise<User> {
+        try {
+            const { password } = loginDto
+            const hash = await hashPassword(password)
+            const createdUser = new this.UserModel({ ...loginDto, password: hash });
+            return createdUser.save();
+        } catch (error) {
+            console.log(error)
+            throw new Error(error)
+        }
+    }
 }
- 
+  

@@ -1,3 +1,4 @@
+import { PartialType } from "@nestjs/mapped-types";
 import { IsNotEmpty, Length } from "class-validator";
 
 export class CreateOrderDto {
@@ -20,29 +21,17 @@ export class CreateOrderDto {
   payment_method: 'Wave' | 'Orange Money' | 'Cash'
 
   @IsNotEmpty()
-  address: {
-    street: string,
-    city: string,
-  };
-
-  @IsNotEmpty()
   order_date: string;
 
 }
 
-export class UpdateOrderStatusDto {
+export class UpdateOrderStatusDto extends PartialType(CreateOrderDto) {
   @IsNotEmpty()
   orderId: string;
-
-  @IsNotEmpty()
-  status: 'Pendding' | 'Payed' | 'Cancel';
 }
 
 
-export class UpdateOrderDeliveryDatesDto {
-  @IsNotEmpty()
-  orderId: string;
-
+export class UpdateOrderDeliveryDatesDto extends PartialType(UpdateOrderStatusDto) {
   @IsNotEmpty()
   delivery_date: Date
 }

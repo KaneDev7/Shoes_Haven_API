@@ -24,6 +24,9 @@ export class User {
     @Prop({ default: true })
     isActive: boolean;
 
+    @Prop()
+    phoneNum: string;
+
     @Prop({type :{ street: String,city: String}})
     address: {
         street: string,

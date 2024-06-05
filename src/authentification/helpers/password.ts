@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import { SALT_ROUNDS } from '../constants/constant';
+import { SALT_ROUNDS } from '../../user/constants/constant';
 
 
 export const hashPassword = async (password: string): Promise<string> => {
