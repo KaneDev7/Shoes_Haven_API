@@ -14,7 +14,7 @@ export class CreateProductDto {
   category : string;
 
   @IsNotEmpty()
-  price : string
+  price : number
 
   @IsNotEmpty()
   size: string;
