@@ -7,6 +7,8 @@ import { extname } from 'path';
 import { existsSync, mkdirSync } from 'fs';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProductSchema, Product } from './schemas/product.schema';
+import { UserModule } from 'src/user/user.module';
+import { User, UserSchema } from 'src/user/schemas/user.schema';
 
 const MAX_PROFILE_PICTURE_SIZE_IN_BYTES = 2 * 1024 * 1024;
 
@@ -36,7 +38,9 @@ const MAX_PROFILE_PICTURE_SIZE_IN_BYTES = 2 * 1024 * 1024;
         },
       }),
     }),
-    MongooseModule.forFeature([{name : Product.name, schema: ProductSchema }])
+    MongooseModule.forFeature([{name : Product.name, schema: ProductSchema }]),
+    MongooseModule.forFeature([{name : User.name, schema: UserSchema }]),
+
   ],
   providers: [ProductService],
   controllers: [ProductController],

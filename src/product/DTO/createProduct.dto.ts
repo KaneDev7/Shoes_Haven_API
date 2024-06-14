@@ -1,4 +1,4 @@
-import { IsHexColor, IsNotEmpty, Length } from "class-validator";
+import { IsHexColor, IsNotEmpty, IsString, Length } from "class-validator";
 
 export class CreateProductDto {
   @IsNotEmpty()
@@ -19,14 +19,11 @@ export class CreateProductDto {
   @IsNotEmpty()
   size: string;
 
-  @IsHexColor()
+  @IsString()
   color: string;
 
   @Length(3, 10)
   mark: string;
-
-  @IsNotEmpty()
-  role? :  string
   
   files: Express.Multer.File[];
 }

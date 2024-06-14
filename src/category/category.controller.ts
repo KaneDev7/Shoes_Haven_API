@@ -22,7 +22,6 @@ export class CategoryController {
         file: Express.Multer.File
     ) {
         try {
-            console.log("createCategoryDto", createCategoryDto)
             await this.categoryService.create(createCategoryDto, file)
             res.status(201).json({ status: 'success', message: 'Category successfully added' })
         } catch (error) {

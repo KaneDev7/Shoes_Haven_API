@@ -9,7 +9,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Category, CategorySchema } from './schemas/category.schema';
 
 @Module({
-  imports : [
+  imports : [ 
     MulterModule.register({
       limits: {
         fileSize: 1000000,

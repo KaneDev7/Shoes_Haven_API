@@ -9,6 +9,7 @@ import {
     Post,
     Put,
     Query,
+    Req,
     Res,
     UploadedFiles,
     UseGuards,
@@ -18,7 +19,7 @@ import { ProductService } from './product.service';
 import { CreateProductDto } from './DTO/createProduct.dto';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/authentification/jwt-auth.guard';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { SetOnProductStockDto, UpdateProductDto } from './DTO/updateProductDto';
 import { SortOrder } from 'mongoose';
 import { filterObjectFactory } from 'src/utils/query';
@@ -35,13 +36,12 @@ export class ProductController {
         @Query('color') color: string,
         @Query('price_lte') price_lte: string,
         @Query('price_gte') price_gte: string,
-        @Query('sort_price') sort_price:  string | { [key: string]: SortOrder | { $meta: any; }; } | [string, SortOrder][],
+        @Query('sort_price') sort_price: string | { [key: string]: SortOrder | { $meta: any; }; } | [string, SortOrder][],
         @Query('mark') mark: string,
-        @Query('onStock') onStock: boolean | string, 
-
+        @Query('onStock') onStock: boolean | string,
     ) {
         try {
-            const filter = filterObjectFactory({category, size,color, price_lte, price_gte, mark, onStock})
+            const filter = filterObjectFactory({ category, size, color, price_lte, price_gte, mark, onStock })
             const results = await this.productService.findAll(filter, sort_price)
             res.status(201).json({ status: 'success', data: results })
         } catch (error) {
@@ -67,18 +67,17 @@ export class ProductController {
     async create(
         @Body() createProductDto: CreateProductDto,
         @Res() res: Response,
+        @Req() req: Request,
         @UploadedFiles(new ParseFilePipeBuilder()
             .build({
                 errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
             }))
         files: { files?: Express.Multer.File[] }
     ) {
-        if (createProductDto.role !== 'admin') {
-            return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'UNAUTHORIZED' })
-        }
 
         try {
-            await this.productService.create(createProductDto, files)
+            const { userId }: { userId?: string } = req.user
+            await this.productService.create(createProductDto, files, userId)
             res.status(201).json({ status: 'success', message: 'Product successfully added' })
         } catch (error) {
             console.log(error)
@@ -93,16 +92,14 @@ export class ProductController {
     async update(
         @Body() updateProductDto: UpdateProductDto,
         @Res() res: Response,
+        @Req() req: Request,
         @Param() { id }: { id: string },
         @UploadedFiles()
         files: { files?: Express.Multer.File[] }
     ) {
-        if (updateProductDto.role !== 'admin') {
-            return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'UNAUTHORIZED' })
-        }
-
+        const { userId }: { userId?: string } = req.user
         try {
-            await this.productService.update(updateProductDto, files, id)
+            await this.productService.update(updateProductDto, files, id, userId)
             res.status(201).json({ status: 'success', message: 'Product successfully updated' })
         } catch (error) {
             console.log(error)
@@ -115,15 +112,13 @@ export class ProductController {
     async setOnStock(
         @Body() setOnProductStockDto: SetOnProductStockDto,
         @Res() res: Response,
+        @Req() req: Request,
         @Param() { id }: { id: string },
     ) {
-        if (setOnProductStockDto.role !== 'admin') {
-            return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'UNAUTHORIZED' })
-        }
-
+        const { userId }: { userId?: string } = req.user
         try {
-            await this.productService.setOnStock(setOnProductStockDto, id)
-            res.status(201).json({ status: 'success', message: `Product stock successfully updated to ${setOnProductStockDto.onStock} ` })
+            await this.productService.setOnStock(setOnProductStockDto, id, userId)
+            res.status(201).json({ status: 'success', message: `Product stock successfully updated to ${setOnProductStockDto.onStock}` })
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message })
@@ -134,16 +129,13 @@ export class ProductController {
     @Delete('delete/:id')
     async deleteOne(
         @Res() res: Response,
+        @Req() req: Request,
         @Param() { id }: { id: string },
         @Query('role') role: string,
     ) {
-
-        if (role !== 'admin') {
-            return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'UNAUTHORIZED' })
-        }
-
+        const { userId }: { userId?: string } = req.user
         try {
-            await this.productService.deleteOne(id)
+            await this.productService.deleteOne(id, userId)
             res.status(201).json({ status: 'success', message: 'Product successfully deleted' })
         } catch (error) {
             console.log(error)

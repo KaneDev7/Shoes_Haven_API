@@ -1,6 +1,6 @@
 import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
-import { LoginDto } from './DTO/login.dto';
+import { LoginDto, RegisterDto } from './DTO/login.dto';
 import { AuthentificationService } from './authentification.service';
 import { authErrorFactory } from './errors/authError';
 import { successResponse } from './success/successResponse';
@@ -8,12 +8,12 @@ import { serverErrorFactory } from './errors/serverErrors';
 
 @Controller('api/auth')
 export class AuthentificationController {
-    constructor(readonly authentificationService: AuthentificationService) { }
+    constructor(readonly authentificationService: AuthentificationService) {}
 
     @Post('/register')
-    async register(@Body() loginDto: LoginDto, @Res() res: Response) {
+    async register(@Body() registerDto: RegisterDto, @Res() res: Response) {
         try {
-            await this.authentificationService.register(loginDto)
+            await this.authentificationService.register(registerDto)
             res.status(201).json({ status: 'success', message: 'user created' })
         } catch (error) {
             console.log(error)
@@ -21,6 +21,7 @@ export class AuthentificationController {
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(serverErrorObject)
         }
     }
+    
     
     @Post('/login')
     async login(@Body() loginDto: LoginDto, @Res() res: Response) {

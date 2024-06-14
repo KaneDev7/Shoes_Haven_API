@@ -1,7 +1,7 @@
-import { Body, Controller, Get, HttpStatus, Post, Put, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Put, Req, Res, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto, createUserContactDto } from './DTO/user.dto';
-import { Response } from 'express';
+import {createUserContactDto } from './DTO/user.dto';
+import { Request, Response } from 'express';
 import { serverErrorFactory } from '../authentification/errors/serverErrors';
 import { successResponse } from '../success/successResponse';
 import { JwtAuthGuard } from 'src/authentification/jwt-auth.guard';
@@ -9,14 +9,16 @@ import { JwtAuthGuard } from 'src/authentification/jwt-auth.guard';
 
 @Controller('api/users')
 export class UserController {
-    constructor(readonly userService: UserService) { }
-
-
+    constructor(readonly userService: UserService) {}
     @UseGuards(JwtAuthGuard)
     @Get()
-    async findAll(@Res() res: Response) {
+    async findAll(
+        @Res() res: Response,
+        @Req() req: Request,
+    ) {
         try {
-            const users = await this.userService.findAll()
+            const { userId }: { userId?: string } = req.user
+            const users = await this.userService.findAll(userId)
             const responseObject = successResponse(users)
             res.status(HttpStatus.OK).json(responseObject)
         } catch (error) {
@@ -30,10 +32,12 @@ export class UserController {
     @Put('contact')
     async createUserContact(
         @Body() createUserContact : createUserContactDto,
-        @Res() res: Response
+        @Res() res: Response,
+        @Req() req: Request,
     ){  
+        const { userId }: { userId?: string } = req.user
         try {
-           await this.userService.createUserContact(createUserContact)
+           await this.userService.createUserContact(createUserContact, userId)
             res.status(201).json({ status: 'success', message: 'contacts successfully updated' })
 
         } catch (error) {
@@ -41,5 +45,4 @@ export class UserController {
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message })
         }
     }
-
 }
