@@ -1,6 +1,7 @@
 import { SortOrder } from "mongoose";
 
 export  interface QueryParams {
+    productId :string
     category: string,
     size: string,
     color: string,
@@ -12,6 +13,7 @@ export  interface QueryParams {
 
 export interface FilterQueryParams {
     category?: string,
+    productId?:string
     size?: string,
     color?: string,
     sort_price?: {price :  string | { [key: string]: SortOrder | { $meta: any; }; } | [string, SortOrder][]},

@@ -3,6 +3,7 @@ import { FilterQueryParams, QueryParams } from "src/product/types/queryParams";
 export const filterObjectFactory = (
     {
         category,
+        productId,
         size,
         color,
         price_lte,
@@ -26,6 +27,10 @@ export const filterObjectFactory = (
     }
     if (mark !== undefined) {
         filter.mark = mark;
+    }
+
+    if(productId !== undefined) {
+        filter.productId = productId
     }
 
     if (onStock !== undefined) {

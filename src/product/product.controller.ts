@@ -32,6 +32,7 @@ export class ProductController {
     @Get()
     async findAll(@Res() res: Response,
         @Query('category') category: string,
+        @Query('productId') productId: string,
         @Query('size') size: string,
         @Query('color') color: string,
         @Query('price_lte') price_lte: string,
@@ -41,7 +42,7 @@ export class ProductController {
         @Query('onStock') onStock: boolean | string,
     ) {
         try {
-            const filter = filterObjectFactory({ category, size, color, price_lte, price_gte, mark, onStock })
+            const filter = filterObjectFactory({ category, size, color, price_lte, price_gte, mark, onStock, productId })
             const results = await this.productService.findAll(filter, sort_price)
             res.status(201).json({ status: 'success', data: results })
         } catch (error) {
@@ -63,14 +64,14 @@ export class ProductController {
 
     @UseGuards(JwtAuthGuard)
     @Post('/add')
-    @UseInterceptors(FileFieldsInterceptor([{ name: 'files', maxCount: 5 }]))
+    @UseInterceptors(FileFieldsInterceptor([{ name: 'files', maxCount: 10 }]))
     async create(
         @Body() createProductDto: CreateProductDto,
         @Res() res: Response,
         @Req() req: Request,
         @UploadedFiles(new ParseFilePipeBuilder()
             .build({
-                errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
+                errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
             }))
         files: { files?: Express.Multer.File[] }
     ) {
@@ -88,7 +89,7 @@ export class ProductController {
 
     @UseGuards(JwtAuthGuard)
     @Put('update/:id')
-    @UseInterceptors(FileFieldsInterceptor([{ name: 'files', maxCount: 5 }]))
+    @UseInterceptors(FileFieldsInterceptor([{ name: 'files', maxCount: 10 }]))
     async update(
         @Body() updateProductDto: UpdateProductDto,
         @Res() res: Response,

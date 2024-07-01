@@ -17,12 +17,12 @@ export class CreateProductDto {
   price : number
 
   @IsNotEmpty()
-  size: string;
+  size: number;
 
   @IsString()
   color: string;
 
-  @Length(3, 10)
+  @Length(3, 30)
   mark: string;
   
   files: Express.Multer.File[];
