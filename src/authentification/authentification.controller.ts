@@ -12,6 +12,7 @@ export class AuthentificationController {
 
     @Post('/register')
     async register(@Body() registerDto: RegisterDto, @Res() res: Response) {
+        console.log('registerDto',registerDto)
         try {
             await this.authentificationService.register(registerDto)
             res.status(201).json({ status: 'success', message: 'user created' })
@@ -24,11 +25,15 @@ export class AuthentificationController {
     
     
     @Post('/login')
-    async login(@Body() loginDto: LoginDto, @Res() res: Response) {
+    async login(
+        @Body() loginDto: LoginDto, 
+        @Res() res: Response
+    ) {
         try {
             const result = await this.authentificationService.login(loginDto)
             const { username, email, token, isActive, role } = result
-            res.status(201).json(successResponse({username, email, token,isActive, role }, ''))
+            res.cookie('token', token, {httpOnly : true})
+            res.status(201).json(successResponse({username, email,token ,isActive, role }, ''))
         } catch (error) {
             console.log(error)
             const serverErrorObject = authErrorFactory(error.message)

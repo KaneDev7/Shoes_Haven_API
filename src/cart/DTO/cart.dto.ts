@@ -12,12 +12,10 @@ export class CreateCartDto {
   };
 }
 
-
 export class DeleteOneItemDto  extends PartialType(CreateCartDto){
   @IsNotEmpty()
   productId: string 
 }
-
 
 
 export class DeleteAlItemsDto  extends PartialType(CreateCartDto){

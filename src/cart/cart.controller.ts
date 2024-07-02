@@ -24,6 +24,7 @@ export class CartController {
         }
     }
 
+
     @UseGuards(JwtAuthGuard)
     @Delete()
     async deleteOne(
@@ -39,6 +40,7 @@ export class CartController {
         }
     }
 
+    
     @UseGuards(JwtAuthGuard)
     @Delete('all')
     async deleteAll(
