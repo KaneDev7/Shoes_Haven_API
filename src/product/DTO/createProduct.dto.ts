@@ -17,7 +17,7 @@ export class CreateProductDto {
   price : number
 
   @IsNotEmpty()
-  size: number;
+  size: number; 
 
   @IsString()
   color: string;

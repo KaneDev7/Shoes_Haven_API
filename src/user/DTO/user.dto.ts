@@ -1,6 +1,8 @@
 import { IsEmail, IsNotEmpty, IsNumber, IsString, Length } from "class-validator";
 
 export class CreateUserDto {
+  _id? : string
+
   @IsNotEmpty()
   @Length(3)
   username: string;
@@ -10,11 +12,10 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   password: string;
-
   token?: string
   roel?: string
   isActive?: boolean
-  cart?: { productId: string; quantity: number }[]
+  cart?: { productId: string; size : string, quantity: number }[]
 }
 
 

@@ -9,6 +9,7 @@ export class CreateCartDto {
   item: {
     productId: string,
     quantity: number,
+    size : string
   };
 }
 

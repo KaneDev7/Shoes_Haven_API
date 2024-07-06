@@ -10,6 +10,7 @@ import { JwtAuthGuard } from 'src/authentification/jwt-auth.guard';
 @Controller('api/users')
 export class UserController {
     constructor(readonly userService: UserService) {}
+
     @UseGuards(JwtAuthGuard)
     @Get()
     async findAll(
@@ -28,6 +29,25 @@ export class UserController {
         }
     }
  
+
+    @UseGuards(JwtAuthGuard)
+    @Get('me')
+    async findOne(
+        @Res() res: Response,
+        @Req() req: Request,
+    ) {
+        try {
+            const { userId }: { userId?: string } = req.user
+            const users = await this.userService.findOne(userId)
+            const responseObject = successResponse(users)
+            res.status(HttpStatus.OK).json(responseObject)
+        } catch (error) {
+            console.log(error)
+            const serverErrorObject = serverErrorFactory(error.message)
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(serverErrorObject)
+        }
+    }
+
     @UseGuards(JwtAuthGuard)
     @Put('contact')
     async createUserContact(

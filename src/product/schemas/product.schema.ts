@@ -24,7 +24,7 @@ export class Product {
     onStock: boolean;
 
     @Prop()
-    size: number;
+    size: string;
 
     @Prop()
     color: string;

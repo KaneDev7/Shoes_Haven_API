@@ -20,6 +20,15 @@ export class UserService {
         }
     }
 
+    async findOne(userId: string): Promise<User[]> {
+        try {
+            return await this.UserModel.findById(userId)
+        } catch (error) {
+            console.log(error)
+            throw new Error(error)
+        }
+    }
+
     async createUserContact({user_id, address, phoneNum} : createUserContactDto, userId: string){
         try {
             const { role } = await this.UserModel.findById(userId, { _id: 0, role: 1 })
