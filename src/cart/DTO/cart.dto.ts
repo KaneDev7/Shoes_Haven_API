@@ -9,16 +9,22 @@ export class CreateCartDto {
   item: {
     productId: string,
     quantity: number,
-    size : string
+    size: string
   };
 }
 
-export class DeleteOneItemDto  extends PartialType(CreateCartDto){
+export class DeleteOneItemDto {
   @IsNotEmpty()
-  productId: string 
+  productId: string
+  
+  @IsNotEmpty()
+  user_id: string;
+
+  @IsNotEmpty()
+  size: string
 }
 
 
-export class DeleteAlItemsDto  extends PartialType(CreateCartDto){
+export class DeleteAlItemsDto extends PartialType(CreateCartDto) {
 
 }

@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { JwtAuthGuard } from 'src/authentification/jwt-auth.guard';
-import { CreateCartDto, DeleteAlItemsDto, DeleteOneItemDto } from './DTO/cart.dto';
+import { CreateCartDto, DeleteOneItemDto } from './DTO/cart.dto';
 import { Response, Request } from 'express';
 
 @Controller('api/cart')
@@ -26,7 +26,7 @@ export class CartController {
 
     @UseGuards(JwtAuthGuard)
     @Get()
-    async fondAll(
+    async findAll(
         @Res() res: Response,
         @Req() req: Request
     ) {
@@ -41,7 +41,6 @@ export class CartController {
         }
     }
 
-
     @UseGuards(JwtAuthGuard)
     @Delete()
     async deleteOne(
@@ -49,6 +48,7 @@ export class CartController {
         @Res() res: Response
     ) {
         try {
+            console.log('body', deleteOneItemDto)
             await this.cartService.deleteOne(deleteOneItemDto)
             res.status(201).json({ status: 'success', message: 'item successfully deleted' })
         } catch (error) {
@@ -57,15 +57,15 @@ export class CartController {
         }
     }
 
-
     @UseGuards(JwtAuthGuard)
     @Delete('all')
     async deleteAll(
-        @Body() deleteAlItemsDto: DeleteAlItemsDto,
+        @Req() req: Request,
         @Res() res: Response
     ) {
         try {
-            await this.cartService.deleteAll(deleteAlItemsDto)
+            const { userId }: { userId?: string } = req.user
+            await this.cartService.deleteAll(userId)
             res.status(201).json({ status: 'success', message: 'items successfully deleted' })
         } catch (error) {
             console.log(error)

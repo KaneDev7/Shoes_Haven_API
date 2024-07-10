@@ -12,15 +12,16 @@ export  interface QueryParams {
 }
 
 export interface FilterQueryParams {
-    category?: string,
+    category?: { $regex: RegExp },
     productId?:string
-    size?: string,
-    color?: string,
+    size?: { $regex: RegExp },
+    color?: { $regex: RegExp },
     sort_price?: {price :  string | { [key: string]: SortOrder | { $meta: any; }; } | [string, SortOrder][]},
     mark? : string
     price? : {
         $gte?: string,
         $lte?: string,
     },
+    $or? : any
     onStock? : boolean | string
 }

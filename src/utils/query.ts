@@ -13,23 +13,25 @@ export const filterObjectFactory = (
     }: QueryParams
 ): FilterQueryParams => {
 
-
     const filter: FilterQueryParams = {};
 
     if (category !== undefined) {
-        filter.category = category;
+        filter.$or = category.split(',').map(s => ({ category: { $regex: new RegExp(`\\b${s}\\b`, 'i') } }));
     }
+
     if (size !== undefined) {
-        filter.size = size;
+        filter.$or = size.split(',').map(s => ({ size: { $regex: new RegExp(`\\b${s}\\b`, 'i') } }));
     }
+
     if (color !== undefined) {
-        filter.color = color;
+        filter.$or = color.split(',').map(s => ({ color: { $regex: new RegExp(`\\b${s}\\b`, 'i') } }));
     }
+
     if (mark !== undefined) {
         filter.mark = mark;
     }
 
-    if(productId !== undefined) {
+    if (productId !== undefined) {
         filter.productId = productId
     }
 
@@ -53,5 +55,5 @@ export const filterObjectFactory = (
         }
     }
 
-    return filter
+    return filter;
 }

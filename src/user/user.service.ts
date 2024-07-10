@@ -32,7 +32,6 @@ export class UserService {
     async createUserContact({user_id, address, phoneNum} : createUserContactDto, userId: string){
         try {
             const { role } = await this.UserModel.findById(userId, { _id: 0, role: 1 })
-            if (role !== 'admin') throw new Error('UNAUTHORIZED')
             await this.UserModel.findByIdAndUpdate(user_id, {$set : {address , phoneNum}})
         } catch (error) {
             console.log(error)

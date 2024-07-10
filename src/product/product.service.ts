@@ -30,7 +30,7 @@ export class ProductService {
 
     async findAll(filter: FilterQueryParams, sort_price: any) {
         try {
-            let query = this.ProductModel.find(filter);
+            let query = this.ProductModel.find(filter)
 
             if (sort_price !== undefined) {
                 query = query.sort({ price: sort_price });

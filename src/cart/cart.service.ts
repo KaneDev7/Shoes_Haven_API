@@ -3,16 +3,25 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from 'src/user/schemas/user.schema';
 import { CreateCartDto, DeleteAlItemsDto, DeleteOneItemDto } from './DTO/cart.dto';
+import { Product } from 'src/product/schemas/product.schema';
 
 @Injectable()
 export class CartService {
     constructor(
-        @InjectModel(User.name) private UserModel: Model<User>
+        @InjectModel(User.name) private UserModel: Model<User>,
+        @InjectModel(Product.name) private ProductModel: Model<Product>,
     ) { }
 
-    async findAll(userId :string) {
+    async findAll(userId: string) {
         try {
-            return await this.UserModel.findById(userId, { cart: 1, _id: 0 })
+
+            const { cart } = await this.UserModel.findById(userId, { cart: 1, _id: 0 })
+            let total = 0
+            for (const item of cart) {
+                const { price } = await this.ProductModel.findById(item.productId, { price: 1, _id: 0 })
+                total += price * item.quantity
+            }
+            return { items: cart, total }
         } catch (error) {
             console.log(error)
             throw new Error('Somme thing went wrong: ' + error.message)
@@ -25,6 +34,7 @@ export class CartService {
         const { productId, size } = cart.item
         const index = currentItems.findIndex(item => item.productId === productId && item.size === size)
         const isItemInCard = index !== -1
+        
         try {
             if (!isItemInCard) {
                 await this.UserModel.findByIdAndUpdate(user_id,
@@ -48,10 +58,11 @@ export class CartService {
         }
     }
 
-    async deleteOne({ user_id, productId }: DeleteOneItemDto) {
+    async deleteOne({ user_id, size, productId }: DeleteOneItemDto) {
+    
         try {
             await this.UserModel.findByIdAndUpdate(user_id,
-                { $pull: { cart: { productId } } },
+                { $pull: { cart: { productId, size}}},
                 { new: true }
             )
         } catch (error) {
@@ -61,7 +72,7 @@ export class CartService {
     }
 
 
-    async deleteAll({ user_id }: DeleteAlItemsDto) {
+    async deleteAll(user_id : string) {
         try {
             await this.UserModel.findByIdAndUpdate(user_id, { cart: [] })
         } catch (error) {
