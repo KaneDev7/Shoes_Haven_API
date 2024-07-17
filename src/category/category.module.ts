@@ -12,7 +12,7 @@ import { Category, CategorySchema } from './schemas/category.schema';
   imports : [ 
     MulterModule.register({
       limits: {
-        fileSize: 1000000,
+        // fileSize: 1000000,
       },
       fileFilter: (req: any, file: any, cb: any) => {
         if (file.mimetype.match(/\/(jpg|jpeg|png|gif)$/)) {
@@ -23,7 +23,7 @@ import { Category, CategorySchema } from './schemas/category.schema';
       },
       storage: diskStorage({
         destination: (req: any, file: any, cb: any) => {  
-          const uploadPath = '../client/public/uploads'
+          const uploadPath = '../client/public/uploads/categories'
           if (!existsSync(uploadPath)) {
             mkdirSync(uploadPath);
           }

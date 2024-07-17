@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from 'src/user/schemas/user.schema';
-import { CreateCartDto, DeleteAlItemsDto, DeleteOneItemDto } from './DTO/cart.dto';
+import { CreateCartDto, DeleteOneItemDto } from './DTO/cart.dto';
 import { Product } from 'src/product/schemas/product.schema';
 
 @Injectable()

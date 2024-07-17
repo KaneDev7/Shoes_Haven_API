@@ -10,9 +10,27 @@ export class CategoryService {
         @InjectModel(Category.name) private CategoryModel: Model<Category>
     ) { }
 
+    async findAll() {
+        try {
+            return this.CategoryModel.find()
+        } catch (error) {
+            console.log(error)
+            throw new Error(`Some thing went wrong : ${error.message}`)
+        }
+    }
+
     async create(createCategoryDto: CreateCategoryDto, file: Express.Multer.File) {
         try {
             await this.CategoryModel.create({ ...createCategoryDto, uri: file.filename })
+        } catch (error) {
+            console.log(error)
+            throw new Error(`Some thing went wrong : ${error.message}`)
+        }
+    }
+
+    async deleteOne(id: string) {
+        try {
+            await this.CategoryModel.findByIdAndDelete(id)
         } catch (error) {
             console.log(error)
             throw new Error(`Some thing went wrong : ${error.message}`)

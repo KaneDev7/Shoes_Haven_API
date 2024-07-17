@@ -30,7 +30,7 @@ export class Order {
     payment_method: 'Wave' | 'Orange Money' | 'Cash'
 
     @Prop()
-    order_date: Date;
+    order_date: string;
 
     @Prop()
     delivery_date: Date;
