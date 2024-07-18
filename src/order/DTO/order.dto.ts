@@ -27,7 +27,7 @@ export class CreateOrderDto {
   payment_method: 'Wave' | 'Orange Money' | 'Cash'
 
   @IsNotEmpty()
-  order_date: any;
+  order_date: Date;
 
 }
 

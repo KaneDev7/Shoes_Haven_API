@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Category } from './schemas/category.schema';
 import { Model } from 'mongoose';
-import { CreateCategoryDto } from './DTO/category.dto';
+import { CreateCategoryDto, UpdateCategoryDto } from './DTO/category.dto';
 
 @Injectable()
 export class CategoryService {
@@ -22,6 +22,15 @@ export class CategoryService {
     async create(createCategoryDto: CreateCategoryDto, file: Express.Multer.File) {
         try {
             await this.CategoryModel.create({ ...createCategoryDto, uri: file.filename })
+        } catch (error) {
+            console.log(error)
+            throw new Error(`Some thing went wrong : ${error.message}`)
+        }
+    }
+
+    async update(updateCategoryDto: UpdateCategoryDto, id : string) {
+        try {
+           return await this.CategoryModel.findByIdAndUpdate(id, updateCategoryDto)
         } catch (error) {
             console.log(error)
             throw new Error(`Some thing went wrong : ${error.message}`)

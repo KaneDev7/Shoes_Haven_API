@@ -1,4 +1,5 @@
-import {IsNotEmpty, Length } from "class-validator";
+import { PartialType } from "@nestjs/mapped-types";
+import {IsNotEmpty } from "class-validator";
 
 export class CreateCategoryDto {
   @IsNotEmpty()
@@ -8,4 +9,9 @@ export class CreateCategoryDto {
   description: string;  
   
   file: Express.Multer.File;
+}
+
+
+export class UpdateCategoryDto extends PartialType(CreateCategoryDto) {
+
 }

@@ -1,8 +1,8 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, Put, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/authentification/jwt-auth.guard';
-import { CreateCategoryDto } from './DTO/category.dto';
+import { CreateCategoryDto, UpdateCategoryDto } from './DTO/category.dto';
 import { Response } from 'express';
 
 @Controller('api/categories')
@@ -38,6 +38,23 @@ export class CategoryController {
         try {
             console.log('createCategoryDto', createCategoryDto, 'file', file)
             await this.categoryService.create(createCategoryDto, file)
+            res.status(201).json({ status: 'success', message: 'Category successfully added' })
+        } catch (error) {
+            console.log(error)
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message })
+        }
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Put(':id')
+    async update(
+        @Body() updateCategoryDto: UpdateCategoryDto,
+        @Res() res: Response,
+        @Param() { id }: { id: string },
+    ) {
+        try {
+            console.log('updateCategoryDto',updateCategoryDto, 'id', id)
+            await this.categoryService.update(updateCategoryDto, id)
             res.status(201).json({ status: 'success', message: 'Category successfully added' })
         } catch (error) {
             console.log(error)
