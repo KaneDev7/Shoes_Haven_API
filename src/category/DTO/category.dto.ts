@@ -5,10 +5,8 @@ export class CreateCategoryDto {
   @IsNotEmpty()
   name: string;
 
-  @IsNotEmpty()
-  description: string;  
-  
-  file: Express.Multer.File;
+  description?: string;    
+  file?: Express.Multer.File;
 }
 
 

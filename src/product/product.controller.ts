@@ -44,7 +44,12 @@ export class ProductController {
         try {
             const filter = filterObjectFactory({ category, size, color, price_lte, price_gte, mark, onStock, productId })
             const results = await this.productService.findAll(filter, sort_price)
-            res.status(201).json({ status: 'success', data: results })
+            if (category && category !== 'all') {
+                const products = results.filter(product => product.category.split(',').includes(category))
+                return res.status(201).json({ status: 'success', data: products })
+            }
+            return res.status(201).json({ status: 'success', data: results })
+
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: 'error', message: error.message })

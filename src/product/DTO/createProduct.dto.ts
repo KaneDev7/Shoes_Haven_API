@@ -22,7 +22,6 @@ export class CreateProductDto {
   @IsString()
   color: string;
 
-  @Length(3, 30)
   mark: string;
   
   files: Express.Multer.File[];

@@ -20,7 +20,11 @@ export class CategoryService {
     }
 
     async create(createCategoryDto: CreateCategoryDto, file: Express.Multer.File) {
+
         try {
+            if (!file) {
+                return await this.CategoryModel.create(createCategoryDto)
+            }
             await this.CategoryModel.create({ ...createCategoryDto, uri: file.filename })
         } catch (error) {
             console.log(error)
@@ -28,9 +32,9 @@ export class CategoryService {
         }
     }
 
-    async update(updateCategoryDto: UpdateCategoryDto, id : string) {
+    async update(updateCategoryDto: UpdateCategoryDto, id: string) {
         try {
-           return await this.CategoryModel.findByIdAndUpdate(id, updateCategoryDto)
+            return await this.CategoryModel.findByIdAndUpdate(id, updateCategoryDto)
         } catch (error) {
             console.log(error)
             throw new Error(`Some thing went wrong : ${error.message}`)

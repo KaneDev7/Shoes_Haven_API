@@ -15,8 +15,8 @@ export const filterObjectFactory = (
 
     const filter: FilterQueryParams = {};
 
-    if (category !== undefined) {
-        filter.$or = category.split(',').map(s => ({ category: { $regex: new RegExp(`\\b${s}\\b`, 'i') } }));
+    if (category !== undefined && category !== 'all') {
+        filter.$or = category.split(',').map(c => ({ category: { $regex: new RegExp(`\\b${c}\\b`, 'i') } }));
     }
 
     if (size !== undefined) {
@@ -24,7 +24,7 @@ export const filterObjectFactory = (
     }
 
     if (color !== undefined) {
-        filter.$or = color.split(',').map(s => ({ color: { $regex: new RegExp(`\\b${s}\\b`, 'i') } }));
+        filter.$or = color.split(',').map(c => ({ color: { $regex: new RegExp(`\\b${c}\\b`, 'i') } }));
     }
 
     if (mark !== undefined) {
