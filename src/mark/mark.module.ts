@@ -1,12 +1,12 @@
 import { HttpException, HttpStatus, Module } from '@nestjs/common';
-import { CategoryService } from './category.service';
-import { CategoryController } from './category.controller';
 import { MulterModule } from '@nestjs/platform-express';
 import { extname } from 'path';
 import { diskStorage } from 'multer';
 import { existsSync, mkdirSync } from 'fs';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Category, CategorySchema } from './schemas/category.schema';
+import { MarkController } from './mark.controller';
+import { MarkService } from './mark.service';
+import { Mark, MarkSchema } from './schemas/mark.schema';
 
 @Module({
   imports : [ 
@@ -23,7 +23,7 @@ import { Category, CategorySchema } from './schemas/category.schema';
       },
       storage: diskStorage({
         destination: (req: any, file: any, cb: any) => {  
-          const uploadPath = '../client/public/uploads/categories'
+          const uploadPath = '../client/public/uploads/marks'
           if (!existsSync(uploadPath)) {
             mkdirSync(uploadPath);
           }
@@ -34,9 +34,9 @@ import { Category, CategorySchema } from './schemas/category.schema';
         },
       }),
     }),
-    MongooseModule.forFeature([{name : Category.name, schema: CategorySchema }])
+    MongooseModule.forFeature([{name : Mark.name, schema: MarkSchema }])
   ],
-  providers: [CategoryService],
-  controllers: [CategoryController]
+  controllers: [MarkController],
+  providers: [MarkService]
 })
-export class CategoryModule {}
+export class MarkModule {}

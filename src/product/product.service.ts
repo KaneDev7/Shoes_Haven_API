@@ -36,7 +36,7 @@ export class ProductService {
                 query = query.sort({ price: sort_price });
             }
             return await query.exec();
-            
+
         } catch (error) {
             console.log(error)
             throw new Error('Somme thing went wrong: ' + error.message)
@@ -61,6 +61,7 @@ export class ProductService {
                 const imageUris = files.files.map(file => file.filename)
                 await this.ProductModel.findByIdAndUpdate(id, { ...updateProductDto, uri: imageUris })
             } else {
+                console.log('updateProductDto', updateProductDto)
                 await this.ProductModel.findByIdAndUpdate(id, updateProductDto)
             }
         } catch (error) {

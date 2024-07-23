@@ -9,6 +9,7 @@ import { AuthentificationModule } from './authentification/authentification.modu
 import { CategoryModule } from './category/category.module';
 import { OrderModule } from './order/order.module';
 import { CartModule } from './cart/cart.module';
+import { MarkModule } from './mark/mark.module';
 
   
 @Module({
@@ -20,7 +21,8 @@ import { CartModule } from './cart/cart.module';
     OrderModule,
     CartModule,
     ConfigModule.forRoot(),
-    MongooseModule.forRoot(process.env.DATABASE_HOST)
+    MongooseModule.forRoot(process.env.DATABASE_HOST),
+    MarkModule
   ],
   controllers: [AppController],
   providers: [AppService],

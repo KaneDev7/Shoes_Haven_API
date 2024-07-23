@@ -22,6 +22,7 @@ export class CreateProductDto {
   @IsString()
   color: string;
 
+  @IsNotEmpty()
   mark: string;
   
   files: Express.Multer.File[];

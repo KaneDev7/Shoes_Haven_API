@@ -28,7 +28,7 @@ export const filterObjectFactory = (
     }
 
     if (mark !== undefined) {
-        filter.mark = mark;
+        filter.$or = mark.split(',').map(m => ({ mark: { $regex: new RegExp(`\\b${m}\\b`, 'i') } }));
     }
 
     if (productId !== undefined) {
