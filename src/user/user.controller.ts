@@ -58,7 +58,7 @@ export class UserController {
         const { userId }: { userId?: string } = req.user
         try {
            await this.userService.createUserContact(createUserContact, userId)
-            res.status(201).json({ status: 'success', message: 'contacts successfully updated' })
+            res.status(201).json({status: 201, message: 'contacts successfully updated' })
 
         } catch (error) {
             console.log(error)
