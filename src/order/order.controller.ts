@@ -16,7 +16,7 @@ export class OrderController {
     ) {
         try {
             this.orderService.create(createOrderDto)
-            res.status(201).json({ status: 'success', message: 'Order successfully added' })
+            res.status(201).json({ status: 201, message: 'Order successfully added' })
 
         } catch (error) {
             console.log(error)
@@ -28,15 +28,30 @@ export class OrderController {
     @Get()
     async findAll(@Res() res: Response) {
         try {
-            this.orderService.findAll()
             const results = await this.orderService.findAll()
-            res.status(201).json({ status: 'success', data: results })
+            res.status(201).json({ status: 200, data: results })
 
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: 'error', message: error.message })
         }
     }   
+
+    @UseGuards(JwtAuthGuard)
+    @Get(':id')
+    async findAllForCurrentUser(
+        @Res() res: Response,
+        @Param() {id} : {id : string},
+    ) {
+        try {
+            const results = await this.orderService.findAllForCurrentUser(id)
+            res.status(201).json({ status: 200, data: results })
+
+        } catch (error) {
+            console.log(error)
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: 'error', message: error.message })
+        }
+    }  
 
     @UseGuards(JwtAuthGuard)
     @Put('update/status')
@@ -46,7 +61,7 @@ export class OrderController {
     ) {
         try {
             this.orderService.updateStatus(updateOrderStatusDto)
-            res.status(201).json({ status: 'success', message: 'Order status successfully updated' })
+            res.status(201).json({ status: 201, message: 'Order status successfully updated' })
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: 'error', message: error.message })
@@ -61,7 +76,7 @@ export class OrderController {
     ) {
         try {
             this.orderService.updateDeliveryDate(updateOrderDeliveryDatesDto)
-            res.status(201).json({ status: 'success', message: 'Order delivery_date successfully updated' })
+            res.status(201).json({ status: 201, message: 'Order delivery_date successfully updated' })
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: 'error', message: error.message })
@@ -76,7 +91,7 @@ export class OrderController {
     ) {
         try {
             this.orderService.deleteOne(id)
-            res.status(201).json({ status: 'success', message: `Order with id ${id} successfully deleted` })
+            res.status(204).json({ status: 204, message: `Order with id ${id} successfully deleted` })
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: 'error', message: error.message })

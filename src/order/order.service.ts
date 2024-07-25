@@ -28,6 +28,16 @@ export class OrderService {
         }
     }
 
+    
+    async findAllForCurrentUser(user_id : string)  : Promise<CreateOrderDto[]>{
+        try {
+            return await this.OrderModel.find({user_id})
+        } catch (error) {
+            console.log(error)
+            throw new Error('Somme thing went wrong: ' + error.message)
+        }
+    }
+
     async updateStatus({ orderId, status }: UpdateOrderStatusDto) {
         try {
             await this.OrderModel.findByIdAndUpdate(orderId, {$set : {status}})

@@ -14,7 +14,7 @@ export class AuthentificationController {
     async register(@Body() registerDto: RegisterDto, @Res() res: Response) {
         try {
             await this.authentificationService.register(registerDto)
-            res.status(201).json({ status: 'success', message: 'user created' })
+            res.status(201).json({ status: 201, message: 'user created' })
         } catch (error) {
             console.log(error)
             const serverErrorObject = serverErrorFactory(error.message)
@@ -28,11 +28,12 @@ export class AuthentificationController {
         @Body() loginDto: LoginDto, 
         @Res() res: Response
     ) {
-        try {
+        try {{}
             const result = await this.authentificationService.login(loginDto)
             const { username, email, token, isActive, role } = result 
             res.cookie('token', token, {httpOnly : true})
-            res.status(201).json(successResponse({token }, ''))
+            res.status(201).json({ status: 201, message: 'user connected', token })
+
         } catch (error) {
             console.log(error)
             const serverErrorObject = authErrorFactory(error.message)

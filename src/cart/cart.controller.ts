@@ -16,7 +16,7 @@ export class CartController {
     ) {
         try {
             this.cartService.create(createCartrDto)
-            res.status(201).json({ status: 'success', message: 'item successfully added' })
+            res.status(201).json({ status: 201, message: 'item successfully added' })
 
         } catch (error) {
             console.log(error)
@@ -33,7 +33,7 @@ export class CartController {
         try {
             const { userId }: { userId?: string } = req.user
             const result = await this.cartService.findAll(userId)
-            res.status(201).json({ status: 'success', data: result })
+            res.status(201).json({ status: 201, data: result })
 
         } catch (error) {
             console.log(error)
@@ -50,7 +50,7 @@ export class CartController {
         try {
             console.log('body', deleteOneItemDto)
             await this.cartService.deleteOne(deleteOneItemDto)
-            res.status(201).json({ status: 'success', message: 'item successfully deleted' })
+            res.status(204).json({ status: 204, message: 'item successfully deleted' })
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message })
@@ -66,7 +66,7 @@ export class CartController {
         try {
             const { userId }: { userId?: string } = req.user
             await this.cartService.deleteAll(userId)
-            res.status(201).json({ status: 'success', message: 'items successfully deleted' })
+            res.status(204).json({ status: 204, message: 'items successfully deleted' })
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message })

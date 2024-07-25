@@ -38,7 +38,7 @@ export class MarkController {
         try {
             console.log('createMarkDto', createMarkDto, 'file', file)
             await this.markService.create(createMarkDto, file)
-            res.status(201).json({ status: 'success', message: 'Mark successfully added' })
+            res.status(201).json({ status: 201, message: 'Mark successfully added' })
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message })
@@ -55,7 +55,7 @@ export class MarkController {
         try {
             console.log('updateMarkDto',updateMarkDto, 'id', id)
             await this.markService.update(updateMarkDto, id)
-            res.status(201).json({ status: 'success', message: 'Mark successfully added' })
+            res.status(201).json({ status: 201, message: 'Mark successfully added' })
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message })
@@ -70,7 +70,7 @@ export class MarkController {
     ) {
         try {
             await this.markService.deleteOne(id)
-            res.status(200).json({ status: 'success', message: 'Mark successfully deleted' })
+            res.status(204).json({ status: 204, message: 'Mark successfully deleted' })
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message })

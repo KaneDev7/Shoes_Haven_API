@@ -38,7 +38,7 @@ export class CategoryController {
         try {
             console.log('createCategoryDto', createCategoryDto, 'file', file)
             await this.categoryService.create(createCategoryDto, file)
-            res.status(201).json({ status: 'success', message: 'Category successfully added' })
+            res.status(201).json({ status: 201, message: 'Category successfully added' })
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message })
@@ -55,7 +55,7 @@ export class CategoryController {
         try {
             console.log('updateCategoryDto',updateCategoryDto, 'id', id)
             await this.categoryService.update(updateCategoryDto, id)
-            res.status(201).json({ status: 'success', message: 'Category successfully added' })
+            res.status(201).json({ status: 201, message: 'Category successfully added' })
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message })
@@ -70,7 +70,7 @@ export class CategoryController {
     ) {
         try {
             await this.categoryService.deleteOne(id)
-            res.status(200).json({ status: 'success', message: 'Category successfully deleted' })
+            res.status(204).json({ status: 204, message: 'Category successfully deleted' })
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message })

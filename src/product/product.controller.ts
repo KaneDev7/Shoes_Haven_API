@@ -80,17 +80,15 @@ export class ProductController {
             }))
         files: { files?: Express.Multer.File[] }
     ) {
-
         try {
             const { userId }: { userId?: string } = req.user
             await this.productService.create(createProductDto, files, userId)
-            res.status(201).json({ status: 'success', message: 'Product successfully added' })
+            res.status(201).json({ status: 201, message: 'Product successfully added' })
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message })
         }
     }
-
 
     @UseGuards(JwtAuthGuard)
     @Put('update/:id')
@@ -106,7 +104,7 @@ export class ProductController {
         const { userId }: { userId?: string } = req.user
         try {
             await this.productService.update(updateProductDto, files, id, userId)
-            res.status(201).json({ status: 'success', message: 'Product successfully updated' })
+            res.status(201).json({ status: 201, message: 'Product successfully updated' })
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message })
@@ -124,7 +122,7 @@ export class ProductController {
         const { userId }: { userId?: string } = req.user
         try {
             await this.productService.setOnStock(setOnProductStockDto, id, userId)
-            res.status(201).json({ status: 'success', message: `Product stock successfully updated to ${setOnProductStockDto.onStock}` })
+            res.status(201).json({ status: 201, message: `Product stock successfully updated to ${setOnProductStockDto.onStock}` })
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message })
@@ -142,7 +140,7 @@ export class ProductController {
         const { userId }: { userId?: string } = req.user
         try {
             await this.productService.deleteOne(id, userId)
-            res.status(201).json({ status: 'success', message: 'Product successfully deleted' })
+            res.status(204).json({ status: 204, message: 'Product successfully deleted' })
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message })
