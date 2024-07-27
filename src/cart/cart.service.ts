@@ -14,14 +14,15 @@ export class CartService {
 
     async findAll(userId: string) {
         try {
-
             const { cart } = await this.UserModel.findById(userId, { cart: 1, _id: 0 })
             let total = 0
+            let quantity = 0
             for (const item of cart) {
                 const { price } = await this.ProductModel.findById(item.productId, { price: 1, _id: 0 })
                 total += price * item.quantity
+                quantity+= item.quantity
             }
-            return { items: cart, total }
+            return { items: cart, total, quantity }
         } catch (error) {
             console.log(error)
             throw new Error('Somme thing went wrong: ' + error.message)
@@ -29,7 +30,6 @@ export class CartService {
     }
 
     async create({ user_id, ...cart }: CreateCartDto) {
-
         const { cart: currentItems } = await this.UserModel.findById(user_id, { cart: 1, _id: 0 })
         const { productId, size } = cart.item
         const index = currentItems.findIndex(item => item.productId === productId && item.size === size)
@@ -37,9 +37,9 @@ export class CartService {
         
         try {
             if (!isItemInCard) {
-                await this.UserModel.findByIdAndUpdate(user_id,
+               return await this.UserModel.findByIdAndUpdate(user_id,
                     { $addToSet: { cart: cart.item } },
-                    { new: true, upsert: true }
+                    { new: true, upsert: true },
                 )
             } else {
                 const updateFondItemQuantity = currentItems.map(item => {
@@ -51,7 +51,7 @@ export class CartService {
                 })
                 await this.UserModel.findByIdAndUpdate(user_id, { $set: { cart: updateFondItemQuantity } })
             }
-
+            return await this.findAll(user_id)
         } catch (error) {
             console.log(error)
             throw new Error(error.message)

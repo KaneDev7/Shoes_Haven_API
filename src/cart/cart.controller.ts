@@ -15,8 +15,8 @@ export class CartController {
         @Res() res: Response,
     ) {
         try {
-            this.cartService.create(createCartrDto)
-            res.status(201).json({ status: 201, message: 'item successfully added' })
+          const result = await this.cartService.create(createCartrDto)
+            res.status(201).json({ status: 201, cart : result, message: 'item successfully added' })
 
         } catch (error) {
             console.log(error)
