@@ -1,8 +1,8 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto, UpdateOrderDeliveryDatesDto, UpdateOrderStatusDto } from './DTO/order.dto';
 import { JwtAuthGuard } from 'src/authentification/jwt-auth.guard';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 
 @Controller('api/orders')
 export class OrderController {
@@ -35,23 +35,24 @@ export class OrderController {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: 'error', message: error.message })
         }
-    }   
+    }
 
     @UseGuards(JwtAuthGuard)
-    @Get(':id')
+    @Get('me')
     async findAllForCurrentUser(
         @Res() res: Response,
-        @Param() {id} : {id : string},
+        @Req() req: Request,
     ) {
         try {
-            const results = await this.orderService.findAllForCurrentUser(id)
+            const { userId }: { userId?: string } = req.user
+            const results = await this.orderService.findAllForCurrentUser(userId)
             res.status(201).json({ status: 200, data: results })
-
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: 'error', message: error.message })
         }
-    }  
+    }
+
 
     @UseGuards(JwtAuthGuard)
     @Put('update/status')
@@ -65,7 +66,7 @@ export class OrderController {
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: 'error', message: error.message })
-        }   
+        }
     }
 
     @UseGuards(JwtAuthGuard)
@@ -86,7 +87,7 @@ export class OrderController {
     @UseGuards(JwtAuthGuard)
     @Delete(':id')
     async deleteOne(
-        @Param() {id} : {id : string},
+        @Param() { id }: { id: string },
         @Res() res: Response,
     ) {
         try {
@@ -97,5 +98,5 @@ export class OrderController {
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: 'error', message: error.message })
         }
     }
-    
+
 }

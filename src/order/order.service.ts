@@ -37,6 +37,8 @@ export class OrderService {
             throw new Error('Somme thing went wrong: ' + error.message)
         }
     }
+    
+
 
     async updateStatus({ orderId, status }: UpdateOrderStatusDto) {
         try {
