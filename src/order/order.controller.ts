@@ -36,6 +36,23 @@ export class OrderController {
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: 'error', message: error.message })
         }
     }
+    
+    @UseGuards(JwtAuthGuard)
+    @Get(':id')
+    async findOne(
+        @Res() res: Response,
+        @Param() { id }: { id: string },
+    ) {
+        try {
+            const results = await this.orderService.findOne(id)
+            res.status(201).json({ status: 200, data: results })
+
+        } catch (error) {
+            console.log(error)
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: 'error', message: error.message })
+        }
+    }
+    
 
     @UseGuards(JwtAuthGuard)
     @Get('me')
@@ -46,9 +63,9 @@ export class OrderController {
         try {
             const { userId }: { userId?: string } = req.user
             const results = await this.orderService.findAllForCurrentUser(userId)
-            res.status(201).json({ status: 200, data: results })
+            res.status(201).json({ status: 200, data: results.reverse() })
         } catch (error) {
-            console.log(error)
+            console.log(error)  
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: 'error', message: error.message })
         }
     }

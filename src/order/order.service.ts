@@ -11,8 +11,10 @@ export class OrderService {
     ) { }
 
     async create(order: CreateOrderDto) {
+        const order_id = `#${Date.now()}`;
+
         try {
-            await this.OrderModel.create(order)
+            await this.OrderModel.create({...order, order_id})
         } catch (error) {
             console.log(error)
             throw new Error(`Some thing went wrong : ${error.message}`)
@@ -29,6 +31,15 @@ export class OrderService {
     }
 
     
+    async findOne(id : string){
+        try {
+            return await this.OrderModel.findById(id)
+        } catch (error) {
+            console.log(error)
+            throw new Error('Somme thing went wrong: ' + error.message)
+        }
+    }
+    
     async findAllForCurrentUser(user_id : string)  : Promise<CreateOrderDto[]>{
         try {
             return await this.OrderModel.find({user_id})
@@ -38,7 +49,6 @@ export class OrderService {
         }
     }
     
-
 
     async updateStatus({ orderId, status }: UpdateOrderStatusDto) {
         try {

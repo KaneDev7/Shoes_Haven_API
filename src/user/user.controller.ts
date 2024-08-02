@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Put, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Put, Req, Res, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import {createUserContactDto } from './DTO/user.dto';
 import { Request, Response } from 'express';
@@ -31,14 +31,13 @@ export class UserController {
  
 
     @UseGuards(JwtAuthGuard)
-    @Get('me')
+    @Get('me/:id')
     async findOne(
         @Res() res: Response,
-        @Req() req: Request,
+        @Param() { id }: { id: string },
     ) {
         try {
-            const { userId }: { userId?: string } = req.user
-            const users = await this.userService.findOne(userId)
+            const users = await this.userService.findOne(id)
             const responseObject = successResponse(users)
             res.status(HttpStatus.OK).json(responseObject)
         } catch (error) {

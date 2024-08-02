@@ -9,6 +9,9 @@ export class Order {
     user_id: string;
 
     @Prop()
+    order_id: string;
+
+    @Prop()
     username: string;
 
     @Prop()
@@ -24,7 +27,7 @@ export class Order {
     total_price: number;
 
     @Prop()
-    status: 'pendding' | 'deliveried' | 'canceled';
+    status: 'pending' | 'deliveried' | 'cancelled';
 
     @Prop()
     payment_method: 'Wave' | 'Orange Money' | 'Cash'
