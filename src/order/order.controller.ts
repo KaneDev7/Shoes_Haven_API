@@ -46,16 +46,15 @@ export class OrderController {
         try {
             const results = await this.orderService.findOne(id)
             res.status(201).json({ status: 200, data: results })
-
         } catch (error) {
             console.log(error)
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: 'error', message: error.message })
         }
     }
-    
+
 
     @UseGuards(JwtAuthGuard)
-    @Get('me')
+    @Get('user/me')
     async findAllForCurrentUser(
         @Res() res: Response,
         @Req() req: Request,

@@ -28,7 +28,7 @@ export class AuthentificationService {
     }
 
     
-    async login(loginDto: LoginDto) : Promise<User>{
+    async login(loginDto: LoginDto) : Promise<any>{
         try {
             const { password, username } = loginDto
             const findUser = await this.UserModel.findOne({ username })

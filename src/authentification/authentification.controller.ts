@@ -30,9 +30,9 @@ export class AuthentificationController {
     ) {
         try {{}
             const result = await this.authentificationService.login(loginDto)
-            const { username, email, token, isActive, role } = result 
+            const { username, email, token, isActive, role, _id } = result 
             res.cookie('token', token, {httpOnly : true})
-            res.status(201).json({ status: 201, message: 'user connected', token })
+            res.status(201).json({ status: 201, message: 'user connected', token , user_id: _id })
 
         } catch (error) {
             console.log(error)
